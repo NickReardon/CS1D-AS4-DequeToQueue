@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="LinkedDeque.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="PrintHeader.h" />
   </ItemGroup>
