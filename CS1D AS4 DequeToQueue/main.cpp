@@ -20,7 +20,23 @@ int main()
 
 	/********************************************************************/
 
+	LinkedDeque<int> deque;
+	for (int i = 0; i < 25; i++)
+	{
+		deque.insertBack(i);
+	}
 
+	deque.removeBack();
+
+	deque.insertAfter(100, 15);
+
+
+
+
+
+
+
+	deque.printAll(cout);
 
 	system("pause");
 	return 0;

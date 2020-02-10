@@ -12,24 +12,6 @@
 
 
 
-template <class Type>
-struct Node
-{
-	Type value;
-
-	Node<Type>* prev;
-	Node<Type>* next;
-
-	Node<Type>(const Type& newValue, Node<Type>* prevNode, Node<Type>* nextNode)
-	{
-		value = newValue;
-
-		prev = prevNode;
-		next = nextNode;
-	}
-
-};
-
 class Except : virtual public std::runtime_error {
 
 protected:
@@ -74,6 +56,31 @@ public:
 
 };
 
+enum ERROR_TYPE
+{
+	DEFUALT,
+	FULL,
+	EMPTY,
+	OUT_OF_RANGE
+};
+
+template <class Type>
+struct Node
+{
+	Type value;
+
+	Node<Type>* prev;
+	Node<Type>* next;
+
+	Node<Type>(const Type& newValue, Node<Type>* prevNode, Node<Type>* nextNode)
+	{
+		value = newValue;
+
+		prev = prevNode;
+		next = nextNode;
+	}
+
+};
 
 template <class Type>
 class LinkedDeque
@@ -89,19 +96,20 @@ private:
 protected:
 	void destroy();
 
-	~LinkedDeque();
-
 public:
 
 	LinkedDeque<Type>(const int newCapacity = 32);
 
 	LinkedDeque<Type>(LinkedDeque<Type>& otherDeque);
 
+	~LinkedDeque();
 
 	bool isEmpty();
 	bool isFull();
 	int size();
 
+	void insertBefore(const Type& newItem, const int index);
+	void insertAfter(const Type& newItem, const int index);
 
 	void insertFront(const Type& newItem);
 	void insertBack(const Type& newItem);
@@ -178,6 +186,120 @@ inline void LinkedDeque<Type>::destroy()
 }
 
 template<class Type>
+inline void LinkedDeque<Type>::insertBefore(const Type& newItem, const int index)
+{
+	if (isEmpty())
+	{
+		throw Except("container is empty", EMPTY, 5);
+	}
+	else if (isFull())
+	{
+		throw Except("container is full", FULL, 5);
+	}
+	else
+	{
+		if (index <= (size() - 1 / 2))
+		{
+			Node<Type>* ptr = head;
+			for (int i = 0; i < index; i++)
+			{
+				ptr = ptr->next;
+			}
+			Node<Type>* temp = new Node<Type>(newItem, nullptr, nullptr);
+
+			temp->prev = ptr->prev;
+			temp->next = ptr;
+
+			ptr->prev = temp;
+			temp->prev->next = temp;
+
+			temp = nullptr;
+			ptr = nullptr;
+
+			currentSize++;
+		}
+		else
+		{
+			Node<Type>* ptr = head;
+			for (int i = size() - 1; i >= size() - 1 - index; i--)
+			{
+				ptr = ptr->next;
+			}
+			Node<Type>* temp = new Node<Type>(newItem, nullptr, nullptr);
+
+			temp->prev = ptr->prev;
+			temp->next = ptr;
+
+			ptr->prev = temp;
+			temp->prev->next = temp;
+
+			temp = nullptr;
+			ptr = nullptr;
+
+			currentSize++;
+		}
+	}
+
+}
+
+template<class Type>
+inline void LinkedDeque<Type>::insertAfter(const Type& newItem, const int index)
+{
+	if (isEmpty())
+	{
+		throw Except("container is empty", EMPTY, 5);
+	}
+	else if (isFull())
+	{
+		throw Except("container is full", FULL, 5);
+	}
+	else
+	{
+		if (index <= (size() - 1 / 2))
+		{
+			Node<Type>* ptr = head;
+			for (int i = 1; i <= index; i++)
+			{
+				ptr = ptr->next;
+			}
+			Node<Type>* temp = new Node<Type>(newItem, nullptr, nullptr);
+
+			temp->next = ptr->next;
+			ptr->next = temp;
+
+			temp->prev = ptr;
+			temp->next->prev = temp;
+
+			temp = nullptr;
+			ptr = nullptr;
+
+			currentSize++;
+		}
+		else
+		{
+			Node<Type>* ptr = head;
+			for (int i = size() - 1; i >= size() - 1 - index; i--)
+			{
+				ptr = ptr->next;
+			}
+			Node<Type>* temp = new Node<Type>(newItem, nullptr, nullptr);
+
+			temp->next = ptr->next;
+			ptr->next = temp;
+
+			temp->prev = ptr;
+			temp->next->prev = temp;
+
+			temp = nullptr;
+			ptr = nullptr;
+
+			currentSize++;
+		}
+	}
+
+}
+
+template<class Type>
 inline void LinkedDeque<Type>::insertFront(const Type& newItem)
 {
 
@@ -206,9 +328,8 @@ inline void LinkedDeque<Type>::insertFront(const Type& newItem)
 	}
 	else
 	{
-		throw Except("container IS full", 1, 5);
+		throw Except("container is full", FULL, 5);
 	}
-
 }
 
 template<class Type>
@@ -240,7 +361,7 @@ inline void LinkedDeque<Type>::insertBack(const Type& newItem)
 	}
 	else
 	{
-		throw Except("container IS full", 1, 5);
+		throw Except("container is full", FULL, 5);
 	}
 
 }
@@ -269,7 +390,7 @@ inline void LinkedDeque<Type>::removeFront()
 	}
 	else
 	{
-		throw Except("container is empty", 2, 5);
+		throw Except("container is empty", EMPTY, 5);
 	}
 
 }
@@ -297,7 +418,7 @@ inline void LinkedDeque<Type>::removeBack()
 	}
 	else
 	{
-		throw Except("container is empty", 2, 5);
+		throw Except("container is empty", EMPTY, 5);
 	}
 
 }
@@ -341,14 +462,13 @@ private:
 protected:
 	void destroy();
 
-	~LinkedQueue();
-
 public:
 
 	LinkedQueue<Type>(const int newCapacity = 32);
 
 	LinkedQueue<Type>(LinkedQueue<Type>& otherDeque);
 
+	~LinkedQueue();
 
 	bool isEmpty();
 	bool isFull();
@@ -369,8 +489,8 @@ public:
 #endif // !_LINKEDDEQUE_H_
 
 template<class Type>
-inline LinkedQueue<Type>::LinkedQueue(const int newCapacity) : 
-	LinkedDeque<Type> (newCapacity)
+inline LinkedQueue<Type>::LinkedQueue(const int newCapacity) :
+	LinkedDeque<Type>(newCapacity)
 {
 
 }
