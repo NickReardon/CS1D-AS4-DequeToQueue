@@ -1,0 +1,105 @@
+****************************************************************************
+* PROGRAMMED BY : Nick Reardon
+* CLASS         : CS1D
+* SECTION       : MW - 2:30p
+* Assignment #4 : Deque To Queue
+****************************************************************************
+
+                        Assignment #4 - Deque To Queue
+
+    Implement a Queue interface with a class that is based on a
+Deque using a wrapper. Do not use the STL. Highlight your Deque
+and Queue classes.
+
+
+           Queue  method        | Deque Implementation
+          ----------------------|----------------------
+           size()               | size()
+          ----------------------|----------------------
+           empty()              | empty()
+          ----------------------|----------------------
+           front()              | front()
+          ----------------------|----------------------
+           enqueue()            | insertBack()
+          ----------------------|----------------------
+           dequeue()            | eraseFront()
+          ----------------------|----------------------
+
+    Test all the member functions (size(), empty(), front(),
+enqueue, and dequeue) of the queue class with the following
+data.
+
+        String string1 = "A man, a plan, a canal, Panamaˆ;
+        String string2 = ÙWas it a car or a cat I saw?";
+        String string3 = ÙSit on a potato pan, Otis";
+        String string4 = ÙNo lemon, no melon";
+
+
+Due February 10th
+
+
+****************************************************************************
+
+
+ --- Using Deque implementation ---
+
+deque currently empty - empty() method called in printAll() to show
+
+Printing deque:
+Container is empty
+
+Reading into deque from file using insertBack() method
+
+Printing deque:
+A man, a plan, a canal, Panama
+Was it a car or a cat I saw?
+Sit on a potato pan, Otis
+No lemon, no melon
+
+deque - calling size method
+Size is currently: 4
+
+deque - Calling front() method
+front value is currently: A man, a plan, a canal, Panama
+
+deque - Calling eraseFront() method
+front value is now currently: Was it a car or a cat I saw?
+
+deque - Calling eraseFront() method
+
+Printing deque:
+Sit on a potato pan, Otis
+No lemon, no melon
+
+
+ --- Using Queue wrapper of deque implementation ---
+
+Queue currently empty - empty() method called in printAll() to show
+
+Printing Queue:
+Container is empty
+
+Reading into queue from file using enqueue() method
+
+Printing Queue:
+A man, a plan, a canal, Panama
+Was it a car or a cat I saw?
+Sit on a potato pan, Otis
+No lemon, no melon
+
+queue - calling size method
+Size is currently: 4
+
+queue - Calling front() method
+front value is currently: A man, a plan, a canal, Panama
+
+queue - Calling dequeue() method
+front value is now currently: Was it a car or a cat I saw?
+
+queue - Calling dequeue() method
+
+Printing Queue:
+Sit on a potato pan, Otis
+No lemon, no melon
+
+Press any key to continue . . .
